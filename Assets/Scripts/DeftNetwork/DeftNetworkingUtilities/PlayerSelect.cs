@@ -37,6 +37,8 @@ public class PlayerSelect : MonoBehaviour
 
   public void SpawnPlayer()
   {
+	TutorialManager tutorialManager = gameObject.GetComponent<TutorialManager> ();
+	tutorialManager.StartTutorial (selectedPlayer.name);
     Vector3 spawnPoint = Camera.main.transform.position + Camera.main.transform.forward * 10;
     Network.Instantiate(selectedPlayer, spawnPoint, Quaternion.identity, 0);
     this.enabled = false;

@@ -21,17 +21,23 @@ public class TutorialManager : MonoBehaviour {
 			tut.SetActive(false);
 		}
 		eventSystem = eventSystemObject.GetComponent<EventSystem> ();
-		GameObject syphen = GameObject.Find ("Syphen");
-		GameObject blitz = GameObject.Find ("Blitz");
-		if (syphen != null) {
+
+
+	}
+	public void StartTutorial(string playerName) {
+		//Start first tutorial panel
+		if (playerName.Equals("Syphen")) {
 			tutorials = syphenTutorials;
 		} else {
 			tutorials = blitzTutorials;
 		}
-		//Start first tutorial panel
 		tutorials[0].SetActive (true);
 		eventSystem.SetSelectedGameObject(tutorialStartButton);
-		GameObject.FindGameObjectWithTag("Player").GetComponent<DeftPlayerController>().enabled = false;
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		foreach (GameObject p in players) {
+			p.GetComponent<DeftPlayerController>().enabled = false;
+		}
+			
 	}
 	public void NextTutorial() {
 		//Disable current menu and remove it from list
@@ -52,6 +58,9 @@ public class TutorialManager : MonoBehaviour {
 	}
 	public void ExitTutorial() {
 		tutorials[0].SetActive (false);
-		GameObject.FindGameObjectWithTag("Player").GetComponent<DeftPlayerController>().enabled = true;
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		foreach (GameObject p in players) {
+			p.GetComponent<DeftPlayerController>().enabled = true;
+		}
 	}
 }

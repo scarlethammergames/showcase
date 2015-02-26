@@ -2,26 +2,24 @@
 using System.Collections;
 
 public class Waypoint : MonoBehaviour {
-
+	
 	public Transform nextWaypoint;
 
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
 	void OnTriggerEnter(Collider other)
 	{
 
-		if(other.tag.Equals("Roamer") )
+		if(other.tag.Equals ("Killer") )
 		{
-			if(!other.gameObject.GetComponent<RoamerMover>().foundPlayer){
+			if( !other.gameObject.GetComponent<Killer_Mover>().interest() )
+			{
 
-				other.gameObject.GetComponent<RoamerMover>().setTarget(nextWaypoint);
-
+				other.gameObject.GetComponent<Killer_Mover>().updateWaypoint(this.nextWaypoint);
+			
 			}
 		}
 
 	}
+
+
 }
