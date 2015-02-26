@@ -59,7 +59,7 @@ public class ForceOnCollision: MonoBehaviour {
 					case ForceType.Push:
 						if( fc.canPush() ){
 							Vector3 direction = Vector3.Normalize( other.transform.position - this.transform.position );
-							other.attachedRigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.SqrMagnitude(  other.transform.position - this.transform.position ), 0, _maxMagnitude) , ForceMode.Impulse);
+							other.rigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.Magnitude(  other.transform.position - this.transform.position ), 0, _maxMagnitude) , ForceMode.Impulse);
 							other.GetComponent<ForceConditions>().setPullable(true);
 						}				
 						break;
