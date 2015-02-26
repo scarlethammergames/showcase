@@ -161,9 +161,11 @@ public class fireProjectile: MonoBehaviour {
 		if(Physics.Raycast(transform.position + _offset, this.transform.forward, out hit, distance)){
 			distance = hit.distance;
 		}
-		_controlledProjectile = Instantiate( _projectile, transform.position + _offset + (transform.forward*distance), transform.rotation ) as GameObject;
-		//_controlledProjectile.GetComponent<TimedLifespan> ().enabled = false;
-		_controlledTarget = Instantiate( _projectile, transform.position + _offset + (transform.forward*distance), transform.rotation ) as GameObject;
+		Vector3 cameraForward = Camera.main.transform.TransformDirection(Vector3.forward).normalized;
+		_controlledProjectile = Instantiate( _projectile, transform.position + _offset + (cameraForward*distance), transform.rotation ) as GameObject;
+		_controlledTarget = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+		_controlledTarget.transform.position = transform.position + _offset + (cameraForward*distance);
+		if(_controlledTarget.collider){_controlledTarget.collider.enabled = false;}
 		_controlledTarget.renderer.enabled = false;
 		_controlledTarget.transform.parent = Camera.main.transform;
 	}
@@ -181,16 +183,16 @@ public class fireProjectile: MonoBehaviour {
 		}
 
 		// get forward direction
-		Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
-		forward = forward.normalized;
-		Vector3 move_direction = _controller.controllerMoveDirection.y * forward + _controller.controllerMoveDirection.x * new Vector3(forward.z, 0, -forward.x);
+		Vector3 cameraForward = Camera.main.transform.TransformDirection(Vector3.forward).normalized;
+		Vector3 cameraRight = Camera.main.transform.TransformDirection(Vector3.right).normalized;
+		Vector3 move_direction = _controller.controllerMoveDirection.y * cameraForward + _controller.controllerMoveDirection.x * cameraRight;//new Vector3(forward.z, 0, -forward.x);
 
 		//Vector3 targetPosition = forward * Vector3.Distance(_controlledProjectile.transform.position, this.transform.position);
 		//apply movement
 		//_controlledProjectile.transform.position = targetPosition;//Vector3.Lerp(_controlledProjectile.transform.position, targetPosition + (move_direction*_magnitude), _drag);//.constantForce.force = move_direction * _magnitude;//new Vector3 (move_direction.x * _magnitude, 0, move_direction.z * _magnitude);//
 		//Debug.Log ("Forward:" + forward + "; myPosition:" + this.transform.position + "; projectilePosition" + _controlledProjectile.transform.position + "; lookDirection:" + _controller.controllerLookDirection);
 		//Debug.Log("; targetPosition:" + targetPosition);
-		_controlledTarget.transform.position = _controlledTarget.transform.position + (_controlledTarget.transform.right * _controller.controllerMoveDirection.x * _magnitude) + (_controlledTarget.transform.forward * _controller.controllerMoveDirection.y * _magnitude);
+		_controlledTarget.transform.position = _controlledTarget.transform.position + move_direction*_magnitude;//(_controlledTarget.transform.right * _controller.controllerMoveDirection.x * _magnitude) + (_controlledTarget.transform.forward * _controller.controllerMoveDirection.y * _magnitude);
 		_controlledProjectile.transform.position = Vector3.Lerp(_controlledProjectile.transform.position, _controlledTarget.transform.position, _drag * Time.deltaTime);
 		Debug.Log("targetPosition:" + _controlledTarget.transform.position);
 		Debug.Log("projectilePosition:" + _controlledProjectile.transform.position);

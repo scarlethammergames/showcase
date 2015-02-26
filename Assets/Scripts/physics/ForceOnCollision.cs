@@ -18,6 +18,8 @@ public class ForceOnCollision: MonoBehaviour {
 	private float _currentMagnitude;
 	private int _maxMagnitude = 1000000;
 
+	public float _delayTime = 5.0f;
+
 	public bool debug = true;
 
 
@@ -49,30 +51,35 @@ public class ForceOnCollision: MonoBehaviour {
 	}
 
 	void OnTriggerStay(Collider other){
-		if (other.attachedRigidbody){
-			ForceConditions fc = (ForceConditions) other.GetComponent(typeof(ForceConditions));
-			if( fc ){
-				switch( _forceType ){
-				case ForceType.Push:
-					if( fc.canPush() ){
-						Vector3 direction = Vector3.Normalize( other.transform.position - this.transform.position );
-						other.attachedRigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.SqrMagnitude(  other.transform.position - this.transform.position ), 0, _maxMagnitude) , ForceMode.Impulse);
-						other.GetComponent<ForceConditions>().setPullable(true);
-					}				
-					break;
-				case ForceType.Pull:
-					if( fc.canPull() ){
-						Vector3 direction = Vector3.Normalize( this.transform.position - other.transform.position );
-						other.rigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.Magnitude(this.transform.position - other.transform.position), 0, _maxMagnitude) , ForceMode.Impulse);
-					}		
-					break;
-				case ForceType.Lift:
-					if( fc.canPush() ){
-						other.rigidbody.AddForce( Vector3.up * Mathf.Clamp(_currentMagnitude/Vector3.Magnitude(this.transform.position - other.transform.position), 0, _maxMagnitude) , ForceMode.Impulse);
+		if(_delayTime <= 0){
+			if (other.attachedRigidbody){
+				ForceConditions fc = (ForceConditions) other.GetComponent(typeof(ForceConditions));
+				if( fc ){
+					switch( _forceType ){
+					case ForceType.Push:
+						if( fc.canPush() ){
+							Vector3 direction = Vector3.Normalize( other.transform.position - this.transform.position );
+							other.attachedRigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.SqrMagnitude(  other.transform.position - this.transform.position ), 0, _maxMagnitude) , ForceMode.Impulse);
+							other.GetComponent<ForceConditions>().setPullable(true);
+						}				
+						break;
+					case ForceType.Pull:
+						if( fc.canPull() ){
+							Vector3 direction = Vector3.Normalize( this.transform.position - other.transform.position );
+							other.rigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.Magnitude(this.transform.position - other.transform.position), 0, _maxMagnitude) , ForceMode.Impulse);
+						}		
+						break;
+					case ForceType.Lift:
+						if( fc.canPush() ){
+							other.rigidbody.AddForce( Vector3.up * Mathf.Clamp(_currentMagnitude/Vector3.Magnitude(this.transform.position - other.transform.position), 0, _maxMagnitude) , ForceMode.Impulse);
+						}
+						break;
 					}
-					break;
 				}
 			}
+		}
+		else{
+			_delayTime -= Time.deltaTime;
 		}
 	}
 }
