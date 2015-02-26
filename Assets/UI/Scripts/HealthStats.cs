@@ -4,23 +4,28 @@ using UnityEngine.UI;
 
 public class HealthStats : MonoBehaviour {
 
-	public GameObject player1;
-	public GameObject player2;
-	private PlayerHealth player1Health;
-	private PlayerHealth player2Health;
+	private GameObject player;
+	private PlayerHealth playerHealth;
 	private Text stats;
+	private bool characterSelected;
 
 	// Use this for initialization
 	void Start () {
+		characterSelected = false;
 		stats = this.GetComponent<Text> ();
-		player1Health = player1.GetComponent<PlayerHealth> ();
-		if (player2) {
-			player2Health = player2.GetComponent<PlayerHealth> ();
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		stats.text = player1Health.getHealth().ToString() + "/" + player1Health.getMaxHealth().ToString();
+		if (!characterSelected) {
+			player = GameObject.FindGameObjectWithTag("Player");
+			if (player!=null) {
+				playerHealth = player.GetComponent<PlayerHealth> ();
+				characterSelected = true;
+			}
+		}
+		if (characterSelected) {
+			stats.text = playerHealth.getHealth ().ToString () + "/" + playerHealth.getMaxHealth ().ToString ();
+		}
 	}
 }

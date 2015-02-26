@@ -4,13 +4,12 @@ using System.Collections;
 public class PlayerHealth : MonoBehaviour {
 	
 	public int maxHealth=100;
-	private int currentHealth;
+	public int currentHealth=100;
 	public GameObject gameManager;
 	private InGameStats gameStats;
 	private bool dead;
 	
 	void Start() {
-		currentHealth = maxHealth;
 		gameStats = gameManager.GetComponent<InGameStats> ();
 		dead = false;
 	}
