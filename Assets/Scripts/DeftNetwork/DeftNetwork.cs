@@ -53,7 +53,7 @@ public class DeftNetwork : MonoBehaviour
 
   private void HostServer()
   {
-    Network.InitializeServer(16, 25000, false);
+    Network.InitializeServer(16, 25000, true);
     MasterServer.RegisterHost(typeName, gameName);
   }
 

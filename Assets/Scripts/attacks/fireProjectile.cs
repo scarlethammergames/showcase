@@ -170,27 +170,27 @@ public class fireProjectile: MonoBehaviour {
 
 	[RPC]
 	void MoveControllable(){
-		_controller.controller_move_direction = Vector2.zero;
+		_controller.controllerMoveDirection = Vector2.zero;
 		//Get controller direction
-		if (_controller.use_gamepad){
-			_controller.controller_move_direction = GamePad.GetAxis(GamePad.Axis.LeftStick, _padIndex);
-			_controller.controller_look_direction = GamePad.GetAxis(GamePad.Axis.RightStick, _padIndex);
+		if (_controller.useGamepad){
+			_controller.controllerMoveDirection = GamePad.GetAxis(GamePad.Axis.LeftStick, _padIndex);
+			_controller.controllerLookDirection = GamePad.GetAxis(GamePad.Axis.RightStick, _padIndex);
 		}else{
-			_controller.controller_move_direction = new Vector2(Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"));
-			_controller.controller_look_direction = new Vector2(Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1), Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1));
+			_controller.controllerMoveDirection = new Vector2(Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"));
+			_controller.controllerLookDirection = new Vector2(Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1), Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1));
 		}
 
 		// get forward direction
 		Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
 		forward = forward.normalized;
-		Vector3 move_direction = _controller.controller_move_direction.y * forward + _controller.controller_move_direction.x * new Vector3(forward.z, 0, -forward.x);
+		Vector3 move_direction = _controller.controllerMoveDirection.y * forward + _controller.controllerMoveDirection.x * new Vector3(forward.z, 0, -forward.x);
 
 		//Vector3 targetPosition = forward * Vector3.Distance(_controlledProjectile.transform.position, this.transform.position);
 		//apply movement
 		//_controlledProjectile.transform.position = targetPosition;//Vector3.Lerp(_controlledProjectile.transform.position, targetPosition + (move_direction*_magnitude), _drag);//.constantForce.force = move_direction * _magnitude;//new Vector3 (move_direction.x * _magnitude, 0, move_direction.z * _magnitude);//
-		//Debug.Log ("Forward:" + forward + "; myPosition:" + this.transform.position + "; projectilePosition" + _controlledProjectile.transform.position + "; lookDirection:" + _controller.controller_look_direction);
+		//Debug.Log ("Forward:" + forward + "; myPosition:" + this.transform.position + "; projectilePosition" + _controlledProjectile.transform.position + "; lookDirection:" + _controller.controllerLookDirection);
 		//Debug.Log("; targetPosition:" + targetPosition);
-		_controlledTarget.transform.position = _controlledTarget.transform.position + (_controlledTarget.transform.right * _controller.controller_move_direction.x * _magnitude) + (_controlledTarget.transform.forward * _controller.controller_move_direction.y * _magnitude);
+		_controlledTarget.transform.position = _controlledTarget.transform.position + (_controlledTarget.transform.right * _controller.controllerMoveDirection.x * _magnitude) + (_controlledTarget.transform.forward * _controller.controllerMoveDirection.y * _magnitude);
 		_controlledProjectile.transform.position = Vector3.Lerp(_controlledProjectile.transform.position, _controlledTarget.transform.position, _drag * Time.deltaTime);
 		Debug.Log("targetPosition:" + _controlledTarget.transform.position);
 		Debug.Log("projectilePosition:" + _controlledProjectile.transform.position);
