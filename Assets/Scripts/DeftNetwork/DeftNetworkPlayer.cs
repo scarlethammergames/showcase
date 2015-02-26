@@ -24,7 +24,7 @@ public class DeftNetworkPlayer : MonoBehaviour
     State[] m_BufferedState = new State[20];
     int m_TimestampCount;
 
-    void Start()
+    void Awake()
     {
         foreach (NetworkView n in GetComponents<NetworkView>())
             n.observed = this;
@@ -32,6 +32,7 @@ public class DeftNetworkPlayer : MonoBehaviour
 
     void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
     {
+        Debug.Log("SERIALISING");
         if (stream.isWriting)
         {
             Vector3 pos = rigidbody.position;
