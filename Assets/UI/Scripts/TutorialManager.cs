@@ -60,7 +60,6 @@ public class TutorialManager : MonoBehaviour {
 	}
 	private void ExitTutorial() {
 		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
-		Debug.Log ("exiting tutorial. players found: " + players.Length.ToString ());
 		foreach (GameObject p in players) {
 			p.GetComponent<DeftPlayerController>().enabled = true;
 		}

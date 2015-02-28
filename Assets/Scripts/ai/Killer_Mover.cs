@@ -29,7 +29,7 @@ public class Killer_Mover : AI_Mover {
 
 	protected override void react()
 	{
-		Debug.Log ("reacting");
+//		Debug.Log ("reacting");
 		updateWaypoint (GameObject.FindGameObjectWithTag ("Player").gameObject.transform);
 
 	}
@@ -63,7 +63,7 @@ public class Killer_Mover : AI_Mover {
 			this.Health -= damageTaken;
 			
 		} else if (other.gameObject.tag.Equals ("Player")) {
-			Debug.Log("HIT!!!!!!!!!!!!!!!");
+//			Debug.Log("HIT!!!!!!!!!!!!!!!");
 			gameManagerStats.decreaseHealth(other.gameObject.name, gameObject.name);
 		}
 		

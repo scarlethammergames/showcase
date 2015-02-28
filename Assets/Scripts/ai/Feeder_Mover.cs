@@ -96,7 +96,7 @@ public class Feeder_Mover : AI_Mover {
 		{
 
 			//OMNOMNOMTEXT
-			Debug.Log ("NOM");
+//			Debug.Log ("NOM");
 			gameObject.renderer.material.color = Color.yellow;
 
 			StartCoroutine(noMoreFood());
@@ -104,7 +104,7 @@ public class Feeder_Mover : AI_Mover {
 			other.gameObject.SetActive(false);
 
 		} else if (other.gameObject.tag.Equals ("Player")) {
-			Debug.Log("HIT!!!!!!!!!!!!!!!");
+//			Debug.Log("HIT!!!!!!!!!!!!!!!");
 			gameManagerStats.decreaseHealth(other.gameObject.name, gameObject.name);
 		}
 		
@@ -115,11 +115,11 @@ public class Feeder_Mover : AI_Mover {
 
 		isRunning = true;
 
-		Debug.Log ("Now waiting");
+//		Debug.Log ("Now waiting");
 
 		yield return new WaitForSeconds (this.timeUntilBored);
 
-		Debug.Log ("Not interested");
+//		Debug.Log ("Not interested");
 
 		notInterested ();
 
