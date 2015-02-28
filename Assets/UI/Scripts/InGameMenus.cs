@@ -12,5 +12,6 @@ public class InGameMenus : MonoBehaviour {
 
 	public void RestartGame() {
 		Application.LoadLevel (gameSceneName);
+		GameObject.Find ("GameManager").GetComponent<DeftNetwork> ().enabled = true;
 	}
 }

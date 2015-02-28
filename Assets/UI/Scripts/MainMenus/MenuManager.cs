@@ -8,16 +8,16 @@ public class MenuManager : MonoBehaviour {
 
 	public void Start() {
 		Time.timeScale = 1;
-		ShowMenu (CurrentMenu);
+//		ShowMenu (CurrentMenu);
 	}
 
-	public void ShowMenu(MainMenu2 menu) {
-		if (CurrentMenu != null) {
-			CurrentMenu.IsOpen = false;
-		}
-		CurrentMenu = menu;
-		CurrentMenu.IsOpen = true;
-	}
+//	public void ShowMenu(MainMenu2 menu) {
+//		if (CurrentMenu != null) {
+//			CurrentMenu.IsOpen = false;
+//		}
+//		CurrentMenu = menu;
+//		CurrentMenu.IsOpen = true;
+//	}
 	public void PlayGame() {
 		Application.LoadLevel (onPlayGameScene);
 	}
