@@ -25,6 +25,11 @@ public class TutorialManager : MonoBehaviour {
 
 	}
 	public void StartTutorial(string playerName) {
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		foreach (GameObject p in players) {
+			p.GetComponent<DeftPlayerController>().enabled = false;
+		}
+
 		//Start first tutorial panel
 		if (playerName.Equals("Syphen")) {
 			tutorials = syphenTutorials;
@@ -33,10 +38,6 @@ public class TutorialManager : MonoBehaviour {
 		}
 		tutorials[0].SetActive (true);
 		eventSystem.SetSelectedGameObject(tutorialStartButton);
-		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
-		foreach (GameObject p in players) {
-			p.GetComponent<DeftPlayerController>().enabled = false;
-		}
 			
 	}
 	public void NextTutorial() {
@@ -44,21 +45,22 @@ public class TutorialManager : MonoBehaviour {
 		tutorials [0].SetActive (false);
 		tutorials.RemoveAt (0);
 		//Check if there exists next tutorial
-		if (tutorials.Count>0) {
+		if (tutorials.Count > 0) {
 			tutorials [0].SetActive (true);
 			//Activate button on that panel so that the xbox controller can access it
 			try {
-				GameObject button = (tutorials[0].transform.FindChild("Panel")).FindChild ("YesButton").gameObject;
-				eventSystem.SetSelectedGameObject(button);
-			}
-			catch(System.NullReferenceException e) {
+				GameObject button = (tutorials [0].transform.FindChild ("Panel")).FindChild ("YesButton").gameObject;
+				eventSystem.SetSelectedGameObject (button);
+			} catch (System.NullReferenceException e) {
 
 			}
+		} else {
+			ExitTutorial();
 		}
 	}
-	public void ExitTutorial() {
-		tutorials[0].SetActive (false);
+	private void ExitTutorial() {
 		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		Debug.Log ("exiting tutorial. players found: " + players.Length.ToString ());
 		foreach (GameObject p in players) {
 			p.GetComponent<DeftPlayerController>().enabled = true;
 		}
