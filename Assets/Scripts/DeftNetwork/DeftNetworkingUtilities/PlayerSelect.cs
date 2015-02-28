@@ -39,6 +39,16 @@ public class PlayerSelect : MonoBehaviour
   {
 	TutorialManager tutorialManager = gameObject.GetComponent<TutorialManager> ();
 	tutorialManager.StartTutorial (selectedPlayer.name);
+		int playerID;
+		if (selectedPlayer.name.Contains("Syphen")) {
+			playerID=0;
+		} else {
+			playerID=1;
+		}
+	HealthBar hb = GameObject.Find ("HealthBar").GetComponent<HealthBar> ();
+	hb.StartHealthBar (playerID);
+	HealthStats hs = GameObject.Find ("HealthStats").GetComponent<HealthStats> ();
+	hs.StartStats(playerID);
     Vector3 spawnPoint = Camera.main.transform.position + Camera.main.transform.forward * 10;
     Network.Instantiate(selectedPlayer, spawnPoint, Quaternion.identity, 0);
     this.enabled = false;

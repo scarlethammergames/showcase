@@ -3,11 +3,13 @@ using System.Collections;
 
 public class ChaserMover : MonoBehaviour {
 
+	public GameObject gameManager;
 	public int attackStrength = 10;
 	private NavMeshAgent agent;
 	private string objectHit;
 	private bool foundTarget;
 	private Transform target;
+	private InGameStats gameManagerStats;
 
 	public float walkRadius;
 
@@ -15,8 +17,8 @@ public class ChaserMover : MonoBehaviour {
 	void Start () {
 
 		foundTarget = false;
-
 		agent = GetComponent<NavMeshAgent> ();
+		gameManagerStats = gameManager.GetComponent<InGameStats> ();
 
 	}
 	
@@ -65,8 +67,7 @@ public class ChaserMover : MonoBehaviour {
 
 			Debug.Log ("Hit");
 			//Damage the player by taking health away from him/her
-			PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
-			playerHealth.decreaseHealth(attackStrength);
+			gameManagerStats.decreaseHealth(other.gameObject.name, gameObject.name);
 		}
 
 		if(objectHit.Equals ("EnviroTile"))

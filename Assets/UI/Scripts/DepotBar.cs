@@ -4,8 +4,9 @@ using System.Collections;
 
 public class DepotBar : MonoBehaviour {
 
-	public GameObject depotObject;
-	private depotAbsorb depotBehaviour;
+	public int depotID;
+	public GameObject gameManager;
+	private InGameStats gameManagerStats;
 	private Image bar;
 
 	void Start() {
@@ -13,13 +14,12 @@ public class DepotBar : MonoBehaviour {
 		bar = GetComponent<Image> ();
 		RectTransform barRect = GetComponent<RectTransform> ();
 
-		
-		//Grab depot
-		depotBehaviour = depotObject.GetComponent<depotAbsorb> ();
+		//Set up manager
+		gameManagerStats = gameManager.GetComponent<InGameStats> ();
 	}
 	// Update is called once per frame
 	void Update () {
-		float currentSize = (float)(depotBehaviour.getCurrentSize ()) / depotBehaviour.getSize ();
+		float currentSize = (float)(gameManagerStats.depotCurrentStock[depotID]) / gameManagerStats.depotCapacity[depotID];
 		if (currentSize!=bar.fillAmount) {
 			bar.fillAmount = Mathf.MoveTowards (bar.fillAmount, currentSize, Time.deltaTime * 0.8f);
 		}

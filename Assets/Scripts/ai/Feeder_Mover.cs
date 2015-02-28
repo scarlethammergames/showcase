@@ -3,11 +3,13 @@ using System.Collections;
 
 public class Feeder_Mover : AI_Mover {
 
+	public GameObject gameManager;
 	Transform tempTarget;
 	bool isRunning;
 	public float timeUntilBored;
 	public float smellingRadius;
-
+	private InGameStats gameManagerStats;
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -22,6 +24,8 @@ public class Feeder_Mover : AI_Mover {
 		gameObject.renderer.material.color = Color.magenta;
 
 		updateSmellRange ();
+
+		gameManagerStats = gameManager.GetComponent<InGameStats> ();
 		
 	}
 
@@ -99,6 +103,9 @@ public class Feeder_Mover : AI_Mover {
 
 			other.gameObject.SetActive(false);
 
+		} else if (other.gameObject.tag.Equals ("Player")) {
+			Debug.Log("HIT!!!!!!!!!!!!!!!");
+			gameManagerStats.decreaseHealth(other.gameObject.name, gameObject.name);
 		}
 		
 	}

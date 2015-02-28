@@ -4,18 +4,19 @@ using UnityEngine.UI;
 
 public class DepotStats : MonoBehaviour {
 
-	public GameObject depotA; 
-	private depotAbsorb depotABehaviour;
+	public int depotID;
+	public GameObject gameManager;
+	private InGameStats gameManagerStats;
 	private Text stats;
 
 	// Use this for initialization
 	void Start () {
-		depotABehaviour = depotA.GetComponent<depotAbsorb> ();
+		gameManagerStats = gameManager.GetComponent<InGameStats> ();
 		stats = this.GetComponent<Text> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		stats.text = depotABehaviour.getCurrentSize().ToString() + "/" + depotABehaviour.getSize().ToString();
+		stats.text = gameManagerStats.depotCurrentStock[depotID].ToString() + "/" + gameManagerStats.depotCapacity[depotID].ToString();
 	}
 }
