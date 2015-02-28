@@ -12,7 +12,7 @@ public class InGameStats : MonoBehaviour {
 	public GameObject[] depots;
 	public int killerAttackDamage;
 	public int feederAttackDamage;
-
+	public GameObject[] depotUI_objects;
 	public GameObject eventSystemObject;
 	public GameObject gameOverFirstSelected;
 	public GameObject gameOverWindow;
@@ -32,7 +32,11 @@ public class InGameStats : MonoBehaviour {
 		foreach (GameObject d in depots) {
 			d.SetActive(false);
 		}
+		foreach (GameObject d in depotUI_objects) {
+			d.SetActive(false);
+		}
 		depots [0].SetActive (true);
+		depotUI_objects [0].SetActive (true);
 	}
 
 	public void decreaseHealth(string targetPlayerName, string attackerName) {
@@ -64,6 +68,7 @@ public class InGameStats : MonoBehaviour {
 			//Activate next depot
 			Debug.Log ("A Depot is FULL");
 			depots[depotsFull].SetActive(true);
+			depotUI_objects[depotsFull].SetActive(true);
 		}
 	}
 	public void lastDepotFull() {
