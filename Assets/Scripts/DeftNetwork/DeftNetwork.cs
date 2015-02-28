@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DeftNetwork : MonoBehaviour
 {
+
   private const string typeName = "DeftNetwork";
   private const string gameName = "DeftRoom";
 
@@ -12,44 +13,60 @@ public class DeftNetwork : MonoBehaviour
   private HostData[] hostList;
 
   private GameObject selectedPlayer = null;
-
+  private bool clientJoined = false;
 
   void Start()
   {
+
     Application.runInBackground = true;
+
+		//By default we set Syphen as host and Blitz as client
+		if (GlobalVariables.syphen) {
+			isHosting=true;
+			HostServer ();
+		} else {
+			isJoining=true;
+		}
   }
 
-  void OnGUI()
-  {
-    if (!Network.isClient && !Network.isServer)
-      if (isJoining && selectedPlayer != null)
-      {
-        if (hostList != null)
-          for (int i = 0; i < hostList.Length; i++)
-            if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), hostList[i].gameName))
-              JoinServer(hostList[i]);
-      }
-      else if (isHosting && selectedPlayer != null)
-      {
-        HostServer();
-      }
-      else if (selectedPlayer == null && (isHosting || isJoining))
-      {
-        // enable player select
-        this.GetComponent<PlayerSelect>().enabled = true;
-        this.selectedPlayer = this.GetComponent<PlayerSelect>().selectedPlayer;
-      }
-      else
-      {
-        if (GUI.Button(new Rect(100, 100, 300, 100), "Start Server"))
-          isHosting = true;
-        if (GUI.Button(new Rect(100, 250, 300, 100), "Refresh Hosts to Join"))
-        {
-          isJoining = true;
-          RefreshHostList();
-        }
-      }
-  }
+	void Update() {
+		if (isJoining && !clientJoined && hostList!=null) {
+			RefreshHostList ();
+			JoinServer (hostList [0]);
+			clientJoined = true;
+		}
+	}
+//  void OnGUI()
+//  {
+//    if (!Network.isClient && !Network.isServer)
+//      if (isJoining && selectedPlayer != null)
+//      {
+//        if (hostList != null)
+//          for (int i = 0; i < hostList.Length; i++)
+//            if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), hostList[i].gameName))
+//              JoinServer(hostList[i]);
+//      }
+//      else if (isHosting && selectedPlayer != null)
+//      {
+//        HostServer();
+//      }
+//      else if (selectedPlayer == null && (isHosting || isJoining))
+//      {
+//        // enable player select
+//        this.GetComponent<PlayerSelect>().enabled = true;
+//        this.selectedPlayer = this.GetComponent<PlayerSelect>().selectedPlayer;
+//      }
+//      else
+//      {
+//        if (GUI.Button(new Rect(100, 100, 300, 100), "Start Server"))
+//          isHosting = true;
+//        if (GUI.Button(new Rect(100, 250, 300, 100), "Refresh Hosts to Join"))
+//        {
+//          isJoining = true;
+//          RefreshHostList();
+//        }
+//      }
+//  }
 
   private void HostServer()
   {
