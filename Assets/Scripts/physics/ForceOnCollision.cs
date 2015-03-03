@@ -23,6 +23,12 @@ public class ForceOnCollision: MonoBehaviour {
 	public bool debug = true;
 
 
+	//RequireComponent(Audiosource);
+
+
+
+
+
 	// Use this for initialization
 	void Start () {
 		_currentMagnitude = _magnitudeBirth;
@@ -61,6 +67,8 @@ public class ForceOnCollision: MonoBehaviour {
 							Vector3 direction = Vector3.Normalize( other.transform.position - this.transform.position );
 							other.rigidbody.AddForce( direction * Mathf.Clamp(_currentMagnitude/Vector3.Magnitude(  other.transform.position - this.transform.position ), 0, _maxMagnitude) , ForceMode.Impulse);
 							other.GetComponent<ForceConditions>().setPullable(true);
+							grenade_explosion.Play();
+
 						}				
 						break;
 					case ForceType.Pull:
