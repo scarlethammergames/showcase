@@ -5,14 +5,12 @@ using System.Collections;
 public class HealthBar : MonoBehaviour {
 	public GameObject gameManager;
 	private InGameStats gameManagerStats;
-	private int playerID;
+	private int playerID = -1;
 	private Image healthbar;
-	private bool playerSelected;
 	private bool firstFill;
 
 	void Start() {
 		firstFill = true;
-		playerSelected = false;
 		gameManagerStats = gameManager.GetComponent<InGameStats> ();
 		//Set up health bar
 		healthbar = GetComponent<Image> ();
@@ -22,15 +20,15 @@ public class HealthBar : MonoBehaviour {
 	}
 	public void StartHealthBar(int playerNumber) {
 		this.playerID = playerNumber;
-		playerSelected = true;
 	}
 	// Update is called once per frame
 	void Update () {
-		if (playerSelected && firstFill) {
+		if (playerID>=0 && firstFill) {
+			Debug.Log("filling up hb");
 			healthbar.fillAmount = Mathf.MoveTowards (healthbar.fillAmount, 1.0f, Time.deltaTime * 0.8f);
 			if (healthbar.fillAmount == 1f) firstFill=false;
 		}
-		if (playerSelected) {
+		if (playerID>=0) {
 			float currentHealth = (float)gameManagerStats.playerCurrentHealth[playerID]/gameManagerStats.playerTotalHealth[playerID];
 			if (currentHealth != healthbar.fillAmount) {
 				healthbar.fillAmount = Mathf.MoveTowards (healthbar.fillAmount, currentHealth, Time.deltaTime * 0.5f);
