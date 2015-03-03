@@ -2,6 +2,6 @@
 using System.Collections;
 
 public static class GlobalVariables  {
-	public static bool syphen;
-	public static bool blitz;
+	public static bool syphen = true;
+	public static bool blitz = false;
 }
